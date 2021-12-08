@@ -14,3 +14,4 @@ headItems = {"ice cube", }
 chestItem = {"marble armor": 1, "piggy back":0.9}
 
 exoticMults = {"road" : 1.3, "webbing":0.6, "antlion sinkhole": 0.3, "honey trail":0.4, "sand storm":0.4}
+
