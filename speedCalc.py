@@ -2,7 +2,7 @@ import PySimpleGUI as sg
 import math
 
 # Character states:
-charStates = {"player":6, "ghost":3.6}
+charStates = {"player":6, "ghost":3.6, "normal beefalo":7}
 
 # some if statement to make sure you dont pick beef setting that i'm planning to add later.
 # slider for wolfgang hunger 0.9-1.25 speed mult according to wiki
