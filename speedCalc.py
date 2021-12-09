@@ -9,9 +9,9 @@ charStates = {"player":6, "ghost":3.6, "normal beefalo":7}
 characterMult = {"WXOC" : 1.5, "WormwoodBloom" : 1.2 ,"WoodieB" : 1.1, "WoodieG" : 1.4, "WoodieM" : 0.9}
 
 # Items
-handItems = {"thulicite club":1.1, "walking cane":1.25, "lazy explorer":1.25, "magiluminecense":1.2}
+handItems = {"thulicite club" : 1.1, "walking cane" : 1.25, "lazy explorer" : 1.25}
 headItems = {"ice cube", }
-chestItem = {"marble armor": 1, "piggy back":0.9}
+chestItem = {"marble armor" : 0.7, "piggy back" : 0.9, "magiluminecense" : 1.2}
 
-exoticMults = {"road" : 1.3, "webbing":0.6, "antlion sinkhole": 0.3, "honey trail":0.4, "sand storm":0.4}
+exoticMults = {"road" : 1.3, "webbing" : 0.6, "antlion sinkhole" : 0.3, "honey trail" : 0.4, "sand storm" : 0.4}
 
