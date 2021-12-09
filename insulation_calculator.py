@@ -1,5 +1,11 @@
 import PySimpleGUI as sg
-import math
+hat_dict = { "Winter Hat" : 120, "Beefalo Hat" : 240, "Tam o' Shanter" : 120, "Rabbit Earmuffs" : 60, "Cat Cap" : 60,
+             "None" : 0}
+dress_dict = { "Dapper Vest" : 60, "Rain Coat" : 60, "Hibernation Vest" : 240, "Puffy Vest" : 240, "Breezy Vest" : 60,
+               "None" : 0}
+beard_dict = { "Wilson (Tier 3 Beard)" : 135, "Webber (Tier 3 Beard)" : 67.5, "Wilson (Tier 2 Beard)" : 45,
+               "Webber (Tier 2 Beard)" : 33.75, "Wilson (Tier 1 Beard)" : 15, "Webber (Tier 1 Beard)" : 11.25,
+               "Woodie" : 45, "Were-Woodie" : 240, "Willow/Wes" : -30, "Other character" : 0}
 layout = [
     [sg.Text('Choose your hat:')],
     [sg.InputCombo(('Winter Hat', 'Beefalo Hat', "Tam o' Shanter", "Rabbit Earmuffs", 'Cat Cap', 'None'),key='hat_input', enable_events=True)],
@@ -22,13 +28,7 @@ while True:
     # See if user wants to quit or window was closed
     if event == sg.WINDOW_CLOSED or event == 'Exit':
         break
-    #if (values['damageinput']) == 'Glass Cutter':
-        #window['cutterinput'].update(visible=True)
-        #window['cutterimage'].update(visible=True)
     if event == 'Calculate':
-        hat_dict = { "Winter Hat" : 120, "Beefalo Hat" : 240, "Tam o' Shanter" : 120, "Rabbit Earmuffs" : 60, "Cat Cap" : 60, "None" : 0}
-        dress_dict = { "Dapper Vest" : 60, "Rain Coat" : 60, "Hibernation Vest" : 240, "Puffy Vest" : 240, "Breezy Vest" : 60, "None" : 0}
-        beard_dict = { "Wilson (Tier 3 Beard)" : 135, "Webber (Tier 3 Beard)" : 67.5, "Wilson (Tier 2 Beard)" : 45, "Webber (Tier 2 Beard)" : 33.75, "Wilson (Tier 1 Beard)" : 15, "Webber (Tier 1 Beard)" : 11.25, "Woodie" : 45, "Were-Woodie" : 240, "Willow/Wes" : -30, "Other character" : 0}
         if values["beard_input"] == "Were-Woodie":
             insulation_total = beard_dict["Were-Woodie"]
         else:
