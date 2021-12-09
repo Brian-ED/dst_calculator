@@ -8,7 +8,8 @@ damage_dict = {"Dark Sword": 68, "Glass Cutter": 68, "Glass Cutter (attacking a 
                "Werebeaver (attacking treeguards)": 44.2, "Electric Dart": 60, "Blow Dart": 100,
                "Trusty Slingshot (rocks)": 17, "Trusty Slingshot (golden rounds)": 34,
                "Trusty Slingshot (marbles)": 51, "Trusty Slingshot (slowing down rounds)": 17,
-               "Trusty Slingshot (cursed rounds)": 51, "Trusty Slingshot (trinket)": 59.5}
+               "Trusty Slingshot (cursed rounds)": 51, "Trusty Slingshot (trinket)": 59.5,
+               "Alarming Clock (Young)" : 81.6, "Alarming Clock (Mid-aged)" : 97.92, "Alarming Clock (Old)" : 142.8 }
 
 durability_dict = {"Dark Sword": 100, "Glass Cutter": 75, "Glass Cutter (attacking a shadow)": 150,
                    "Thulecite Club": 200, "Ham Bat": 0, "Weremoose": 0, "Tentacle Spike": 100,
@@ -18,7 +19,8 @@ durability_dict = {"Dark Sword": 100, "Glass Cutter": 75, "Glass Cutter (attacki
                    "Werebeaver (attacking treeguards)": 0, "Electric Dart": 1, "Blow Dart": 1,
                    "Trusty Slingshot (rocks)": 1, "Trusty Slingshot (golden rounds)": 1,
                    "Trusty Slingshot (marbles)": 1, "Trusty Slingshot (slowing down rounds)": 1,
-                   "Trusty Slingshot (cursed rounds)": 1, "Trusty Slingshot (trinket)": 1}
+                   "Trusty Slingshot (cursed rounds)": 1, "Trusty Slingshot (trinket)": 1,
+                   "Alarming Clock (Young)" : 96, "Alarming Clock (Mid-aged)" : 96, "Alarming Clock (Old)" : 96 }
 character_dict = {"Wolfgang (mighty)": 2, "Wigfrid": 1.25, "Wendy/Wes": 0.75, "Other characters": 1,
                   "Wendy with Abigail": 1.15}
 chilidata = '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'
@@ -36,7 +38,8 @@ layout = [
                     'Strident Trident (on land)', 'Boomerang', 'Trusty Slingshot (rocks)',
                     'Trusty Slingshot (golden rounds)', 'Trusty Slingshot (marbles)',
                     'Trusty Slingshot (slowing down rounds)', 'Trusty Slingshot (cursed rounds)',
-                    'Trusty Slingshot (trinket)'),key='weaponinput', enable_events=True, default_value="Spear")],
+                    'Trusty Slingshot (trinket)', "Alarming Clock (Young)", "Alarming Clock (Mid-aged)",
+                    "Alarming Clock (Old)"),key='weaponinput', enable_events=True, default_value="Spear")],
     [sg.Text('Choose your character:')],
     [sg.InputCombo(('Wolfgang (mighty)', 'Wigfrid', 'Wendy/Wes', 'Wendy with Abigail', 'Other characters'),
                    size=(20, 1), key='characterinput', default_value="Other characters", enable_events=True)],
@@ -64,18 +67,15 @@ while True:
         values['cccrowninput'] = False
     if values['weaponinput'][0:4] != "Were":
         window['cccrowninput'].update(disabled=False)
-    if values['weaponinput'][0:16] == "Trusty Slingshot" or values['weaponinput'][0:4] == "Were":
+    if values['weaponinput'][0:16] == "Trusty Slingshot" or values['weaponinput'][0:4] == "Were" or values['weaponinput'][0:8] == "Alarming":
         window['characterinput'].update(value="Other characters", disabled=True)
-    if values['weaponinput'][0:16] != "Trusty Slingshot" and values['weaponinput'][0:4] != "Were":
+    if values['weaponinput'][0:16] != "Trusty Slingshot" and values['weaponinput'][0:4] != "Were" and values['weaponinput'][0:8] != "Alarming":
         window['characterinput'].update(disabled=False)
     # See if user wants to quit or window was closed
     if event == sg.WINDOW_CLOSED or event == 'Exit':
         break
-    #if (values['damageinput']) == 'Glass Cutter':
-        #window['cutterinput'].update(visible=True)
-        #window['cutterimage'].update(visible=True)
     if event == 'Calculate':
-        if values['weaponinput'][0:16] == "Trusty Slingshot" or values['weaponinput'][0:4] == "Were":
+        if values['weaponinput'][0:16] == "Trusty Slingshot" or values['weaponinput'][0:4] == "Were" or values['weaponinput'][0:8] == "Alarming":
             values['characterinput'] = "Other characters"
         if values['weaponinput'] == "Morning Star" or values['weaponinput'] == "Electric Dart":
             values['electricinput'] = True
