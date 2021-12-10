@@ -15,3 +15,5 @@ chestItem = {"marble armor" : 0.7, "piggy back" : 0.9, "magiluminecense" : 1.2}
 
 exoticMults = {"road" : 1.3, "webbing" : 0.6, "antlion sinkhole" : 0.3, "honey trail" : 0.4, "sand storm" : 0.4}
 
+# TODO: the calculator of speedboosts
+
