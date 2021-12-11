@@ -65,7 +65,6 @@ layout = [
 
 window = sg.Window('DST Damage Calculator', layout)
 
-
 while True:
     event, values = window.read()
     if values['weaponinput'][0:4] == "Were":
@@ -76,11 +75,12 @@ while True:
     if values['weaponinput'][0:6] == "Trusty" or values['weaponinput'][0:4] == "Were" or values['weaponinput'][0:8] == "Alarming":
         window['characterinput'].update(value="Other characters", disabled=True)
         values['characterinput'] = "Other characters"
-    if values['weaponinput'][0:6] != "Trusty" and values['weaponinput'][0:4] != "Were" and values['weaponinput'][0:8] != "Alarming":
+    if values['weaponinput'][0:6] != "Trusty" and values['weaponinput'][0:8] != "Alarming":
         result = False
         if values['weaponinput'][0:4] == "Dark" and values['characterinput'] == "Other characters":
             result = True
-        window['characterinput'].update(disabled=False)
+        if values['weaponinput'][0:4] != "Were":
+            window['characterinput'].update(disabled=False)
         if not result:
             window['spectext'].update(visible=False)
             window['specinput'].update(visible=False)
@@ -98,6 +98,9 @@ while True:
     if values['weaponinput'][0:6] == "Trusty":
         window['spectext'].update("Choose your ammos:", visible=True)
         window['specinput'].update(values=(walter_dict_keys), visible=True)
+    window['spectext'].update()
+    window['specinput'].update()
+    print(values['weaponinput'])
     # See if user wants to quit or window was closed
     if event == sg.WINDOW_CLOSED or event == 'Exit':
         break
