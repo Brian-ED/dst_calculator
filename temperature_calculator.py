@@ -15,7 +15,7 @@ def insulation():
     sg.theme("DarkBlue13") # May be changed later
     layout = [
         [sg.Text('Choose your hat:                                                                      '),
-         sg.Button("Insulation"), sg.Image(data=insulation_icon_data)],
+         sg.Button("Insulation", tooltip="Swap to Overheating Protection"), sg.Image(data=insulation_icon_data)],
         [sg.InputCombo(('Winter Hat', 'Beefalo Hat', "Tam o' Shanter", "Rabbit Earmuffs", 'Cat Cap', 'None'),key='hat_input', default_value="Winter Hat", enable_events=True)],
         [sg.Text('Choose your dress:')],
         [sg.InputCombo(('Dapper Vest', 'Hibernation Vest', 'Puffy Vest', 'Breezy Vest', 'Rain Coat', 'None'),key='dress_input', default_value="None", enable_events=True)],
@@ -24,8 +24,8 @@ def insulation():
         [sg.Text('Choose your character:')],
         [sg.InputCombo(('Were-Woodie', 'Wilson (Tier 3 Beard)', 'Webber (Tier 3 Beard)', 'Wilson (Tier 2 Beard)',
                         'Webber (Tier 2 Beard)', 'Woodie', 'Wilson (Tier 1)', "Webber (Tier 1)", "Willow/Wes",
-                        'Other characters'), default_value="Other characters", size=(20, 1), key='beard_input',
-                       enable_events=True)],
+                        "Overcharged WX-78", 'Other characters'), default_value="Other characters", size=(20, 1),
+                       key='beard_input', enable_events=True)],
         [sg.Text("Write your temperature:")],
         [sg.Input(key='degrees_input', default_text="50")],
         [sg.Text(size=(60,1), key='output0')],
@@ -58,10 +58,13 @@ def insulation():
             window.close()
             break
         if event == 'Calculate':
-            insulation_total = hat_dict[values["hat_input"]] + dress_dict[values["dress_input"]] + hand_dict[values['hand_input']] + beard_dict[values["beard_input"]] + 30
-            window['output0'].update('You will have {0} insulation.'.format(insulation_total))
-            window['output1'].update('You will lose {0} degrees per second.'.format(30/insulation_total))
-            window['output2'].update('You will start freezing after {0} seconds/{1} minutes.'.format(int(values["degrees_input"])/(30/insulation_total), (int(values["degrees_input"])/(30/insulation_total))/60))
+            if values['beard_input'] != "Overcharged WX-78":
+                insulation_total = hat_dict[values["hat_input"]] + dress_dict[values["dress_input"]] + hand_dict[values['hand_input']] + beard_dict[values["beard_input"]] + 30
+                window['output0'].update('You will have {0} insulation.'.format(insulation_total))
+                window['output1'].update('You will lose {0} degrees per second.'.format(30/insulation_total))
+                window['output2'].update('You will start freezing after {0} seconds/{1} minutes.'.format(int(values["degrees_input"])/(30/insulation_total), (int(values["degrees_input"])/(30/insulation_total))/60))
+            else:
+                window['output0'].update('You will start freezing only after overcharging will end.')
         if event == 'Insulation':
             break
     window.close()
@@ -70,7 +73,7 @@ def insulation():
 
 def overheating_protection():
     hat_dict = {"Eyebrella": 240, "Straw Hat": 60, "Mushroom Funcap": 60, "Pinetree Pioner Hat": 60,
-                "Gardener hat": 60, "None": 0}
+                "Gardener Hat": 60, "None": 0}
     dress_dict = {"Chirpy Scarf": 120, "Chirpy Capelet": 240, "Chirpy Cloak": 240, "Floral Shirt": 240,
                   "Summer Frest": 120, "None": 0}
     hand_dict = {"Umbrella": 120, "Pretty Parasol": 120, "None": 0}
@@ -81,7 +84,7 @@ def overheating_protection():
     sg.theme("LightBrown11")  # May be changed later
     layout = [
         [sg.Text('Choose your hat:                                                '),
-         sg.Button("Overheating Protection"), sg.Image(data=overheating_icon_data)],
+         sg.Button("Overheating Protection", tooltip="Swap to Insulation"), sg.Image(data=overheating_icon_data)],
         [sg.InputCombo(('Eyebrella', 'Straw Hat', "Mushroom Funcap", 'Pinetree Pioner Hat', 'Gardener Hat', 'None'),
                        key='hat_input', default_value="Eyebrella", enable_events=True)],
         [sg.Text('Choose your dress:')],
@@ -103,7 +106,7 @@ def overheating_protection():
         [sg.Text(size=(60, 1), key='output2')],
         [sg.Button('Calculate'), sg.Button('Exit')]]
 
-    window = sg.Window('DST Insulation Calculator', layout)
+    window = sg.Window('DST Overheating Protection Calculator', layout)
 
     while True:
         event, values = window.read()
