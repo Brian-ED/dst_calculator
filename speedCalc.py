@@ -1,6 +1,8 @@
 import PySimpleGUI as sg
 import math
+import pyperclip
 
+speed = ""
 
 # Character states:
 charStates_dict = {"player":6, "ghost":3.6, "normal beefalo":7}
@@ -9,11 +11,11 @@ charStates_dict = {"player":6, "ghost":3.6, "normal beefalo":7}
 charMult_dict = {"Other characters" : 1, "WXOC" : 1.5, "WormwoodBloom" : 1.2 ,"WoodieB" : 1.1, "WoodieG" : 1.4, "WoodieM" : 0.9}
 
 # Items
-handItems_dict = {"Empty":1,"thulicite club" : 1.1, "walking cane" : 1.25, "lazy explorer" : 1.25}
-headItems_dict = {"Empty":1, "ice cube":0.9}
-chestItems_dict = {"Empty":1, "marble armor" : 0.7, "piggy back" : 0.9, "magiluminecense" : 1.2}
+handItems_dict = {"Empty":1,"Thulicite club" : 1.1, "Walking cane" : 1.25, "Lazy explorer" : 1.25}
+headItems_dict = {"Empty":1, "Ice cube":0.9}
+chestItems_dict = {"Empty":1, "Marble armor" : 0.7, "Piggy back" : 0.9, "Magiluminecense" : 1.2}
 
-exoticMults_dict = {"road" : 1.3, "webbing" : 0.6, "antlion sinkhole" : 0.3, "honey trail" : 0.4, "sand storm" : 0.4}
+exoticMults_dict = {"Road" : 1.3, "Webbing" : 0.6, "Antlion sinkhole" : 0.3, "Honey trail" : 0.4}
     
 # Layout
 
@@ -61,28 +63,37 @@ layout = [
     # Output text
     [sg.Text(size=(60,1), key='output0')],
 
+    [sg.Checkbox("storm",key="stormInput")],
+
     # Buttons
-    [sg.Button('Calculate'), sg.Button('Exit')]
+    [sg.Button("Calculate"), sg.Button("Exit"),sg.Button("Copy to clipboard")]
 ]
 
-window = sg.Window('DST Speed Calculator', layout)
-
-
-# TODO: the calculator of speedboosts
+window = sg.Window("DST Speed Calculator", layout)
 
 while True:
     event, values = window.read()
+    
     # See if user wants to quit or window was closed
     if event == sg.WINDOW_CLOSED or event == 'Exit':
         break
+
     if event == 'Calculate':
-        state = charStates_dict[values['stateInput']]
+
+        state = charStates_dict[values["stateInput"]]
         character = charMult_dict[values["charInput"]]
         head = headItems_dict[values['headInput']]
         chest = chestItems_dict[values['chestInput']]
         hand = handItems_dict[values['handInput']]
-        speed = state * character * head * hand * hand
+
+        speed = state * character * head * hand
+        if values["stormInput"]:
+            speed *= 0.4
+
         window['output0'].update('You will get {0} speed.'.format(speed))
+
+    if event == "Copy to clipboard":
+        pyperclip.copy('{0}'.format(speed))
 
 
 # Finish up by removing from the screen
