@@ -12,19 +12,29 @@ def insulation():
     beard_dict = { "Wilson (Tier 3 Beard)" : 135, "Webber (Tier 3 Beard)" : 67.5, "Wilson (Tier 2 Beard)" : 45,
                    "Webber (Tier 2 Beard)" : 33.75, "Wilson (Tier 1 Beard)" : 15, "Webber (Tier 1 Beard)" : 11.25,
                    "Woodie" : 45, "Were-Woodie" : 240, "Willow/Wes" : -30, "Other characters" : 0}
+    hat_dict_keys = []
+    for i in hat_dict.keys():
+        hat_dict_keys.append(i)
+    dress_dict_keys = []
+    for i in dress_dict.keys():
+        dress_dict_keys.append(i)
+    hand_dict_keys = []
+    for i in hand_dict.keys():
+        hand_dict_keys.append(i)
+    beard_dict_keys = []
+    for i in beard_dict.keys():
+        beard_dict_keys.append(i)
     sg.theme("DarkBlue13") # May be changed later
     layout = [
         [sg.Text('Choose your hat:                                                                      '),
          sg.Button("Insulation", tooltip="Swap to Overheating Protection"), sg.Image(data=insulation_icon_data)],
-        [sg.InputCombo(('Winter Hat', 'Beefalo Hat', "Tam o' Shanter", "Rabbit Earmuffs", 'Cat Cap', 'None'),key='hat_input', default_value="Winter Hat", enable_events=True)],
+        [sg.InputCombo((hat_dict_keys),key='hat_input', default_value="Winter Hat", enable_events=True)],
         [sg.Text('Choose your dress:')],
-        [sg.InputCombo(('Dapper Vest', 'Hibernation Vest', 'Puffy Vest', 'Breezy Vest', 'Rain Coat', 'None'),key='dress_input', default_value="None", enable_events=True)],
+        [sg.InputCombo((dress_dict_keys),key='dress_input', default_value="None", enable_events=True)],
         [sg.Text('Choose item in your hand:')],
-        [sg.InputCombo(('Bernie', 'None'),key='hand_input', default_value="None", enable_events=True)],
+        [sg.InputCombo((hand_dict_keys),key='hand_input', default_value="None", enable_events=True)],
         [sg.Text('Choose your character:')],
-        [sg.InputCombo(('Were-Woodie', 'Wilson (Tier 3 Beard)', 'Webber (Tier 3 Beard)', 'Wilson (Tier 2 Beard)',
-                        'Webber (Tier 2 Beard)', 'Woodie', 'Wilson (Tier 1)', "Webber (Tier 1)", "Willow/Wes",
-                        "Overcharged WX-78", 'Other characters'), default_value="Other characters", size=(20, 1),
+        [sg.InputCombo((beard_dict_keys), default_value="Other characters", size=(20, 1),
                        key='beard_input', enable_events=True)],
         [sg.Text("Write your temperature:")],
         [sg.Input(key='degrees_input', default_text="50")],
@@ -81,17 +91,27 @@ def overheating_protection():
                   "Webber (Tier 2 Beard)": -33.75, "Wilson (Tier 1 Beard)": -15, "Webber (Tier 1 Beard)": -11.25,
                   "Woodie": -45, "Were-Woodie": 240, "Wes": -30, "Willow": 30, "Blooming Wormwood": 60,
                   "Other characters": 0}
+    hat_dict_keys = []
+    for i in hat_dict.keys():
+        hat_dict_keys.append(i)
+    dress_dict_keys = []
+    for i in dress_dict.keys():
+        dress_dict_keys.append(i)
+    hand_dict_keys = []
+    for i in hand_dict.keys():
+        hand_dict_keys.append(i)
+    beard_dict_keys = []
+    for i in beard_dict.keys():
+        beard_dict_keys.append(i)
     sg.theme("LightBrown11")  # May be changed later
     layout = [
         [sg.Text('Choose your hat:                                                '),
          sg.Button("Overheating Protection", tooltip="Swap to Insulation"), sg.Image(data=overheating_icon_data)],
-        [sg.InputCombo(('Eyebrella', 'Straw Hat', "Mushroom Funcap", 'Pinetree Pioner Hat', 'Gardener Hat', 'None'),
-                       key='hat_input', default_value="Eyebrella", enable_events=True)],
+        [sg.InputCombo((hat_dict_keys), key='hat_input', default_value="Eyebrella", enable_events=True)],
         [sg.Text('Choose your dress:')],
-        [sg.InputCombo(('Chirpy Scarf', 'Chirpy Capelet', 'Chirpy Cloak', 'Floral Shirt', 'Summer Frest', 'None'),
-                       key='dress_input', default_value="None", enable_events=True)],
+        [sg.InputCombo((dress_dict_keys), key='dress_input', default_value="None", enable_events=True)],
         [sg.Text('Choose item in your hand:')],
-        [sg.InputCombo(('Umbrella', 'Pretty Parasol', 'None'), key='hand_input', default_value="None",
+        [sg.InputCombo((hand_dict_keys), key='hand_input', default_value="None",
                        enable_events=True)],
         [sg.Text('Choose your character:')],
         [sg.InputCombo(('Were-Woodie', 'Wilson (Tier 3 Beard)', 'Webber (Tier 3 Beard)', 'Wilson (Tier 2 Beard)',
