@@ -1,5 +1,5 @@
+from tkinter.constants import DISABLED
 import PySimpleGUI as sg
-import math
 import pyperclip
 
 speed = ""
@@ -8,7 +8,8 @@ speed = ""
 charStates_dict = {"player":6, "ghost":3.6, "normal beefalo":7}
 
 # some if statement to make sure you dont pick beef setting that i'm planning to add later.
-charMult_dict = {"Other characters" : 1, "WXOC" : 1.5, "WormwoodBloom" : 1.2 ,"WoodieB" : 1.1, "WoodieG" : 1.4, "WoodieM" : 0.9}
+charMult_dict = {"Other characters" : 1, "WX-78 overcharge" : 1.5, "Wormwood bloom" : 1.2 ,"Woodie beaver" : 1.1, "Woodie goose" : 1.4, "Woodie moose" : 0.9}
+beef_dict = {"Default":1 ,"Ornery":1, "Rider":1.14285714286, "Pudgy":6.5}
 
 # Items
 handItems_dict = {"Empty":1,"Thulicite club" : 1.1, "Walking cane" : 1.25, "Lazy explorer" : 1.25}
@@ -46,7 +47,10 @@ layout = [
 
     # Character buff
     [sg.Text("Choose your character:")],
-    [sg.InputCombo(charMult_names, key="charInput", default_value="Other characters", enable_events=True)],
+    [sg.InputCombo(charMult_names, key="charInput", visible=True, default_value="Other characters", enable_events=True)],
+
+    # Beefalo trait
+    [sg.InputCombo(beef_dict, key="beefInput", visible=False, default_value="Default", enable_events=True)],
 
     # Head slot
     [sg.Text("Choose your head item:")],
@@ -63,7 +67,12 @@ layout = [
     # Output text
     [sg.Text(size=(60,1), key='output0')],
 
-    [sg.Checkbox("storm",key="stormInput")],
+    # Checkboxes
+    [sg.Checkbox("Storm",key="stormCheck")], # {"Road" : 1.3, "Webbing" : 0.6, "Antlion sinkhole" : 0.3, "Honey trail" : 0.4}
+    [sg.Checkbox("Road",key="roadCheck")],
+    [sg.Checkbox("Webbing",key="webbingCheck")],
+    [sg.Checkbox("Antlion sinkhole",key="AntlionCheck")],
+    [sg.Checkbox("Honey trail",key="stormInput")],
 
     # Buttons
     [sg.Button("Calculate"), sg.Button("Exit"),sg.Button("Copy to clipboard")]
@@ -78,17 +87,33 @@ while True:
     if event == sg.WINDOW_CLOSED or event == 'Exit':
         break
 
+    if values["stateInput"] != "player":
+        window['charInput'].update(visible=False)
+    else: window['charInput'].update(visible=True)
+
+    if values["stateInput"] != "normal beefalo":
+        window["beefInput"].update(visible=False)
+    else: window['beefInput'].update(visible=True)
+
+
     if event == 'Calculate':
 
         state = charStates_dict[values["stateInput"]]
-        character = charMult_dict[values["charInput"]]
-        head = headItems_dict[values['headInput']]
-        chest = chestItems_dict[values['chestInput']]
-        hand = handItems_dict[values['handInput']]
+        if state == "player":
+            character = charMult_dict[values["charInput"]]
+            head = headItems_dict[values['headInput']]
+            chest = chestItems_dict[values['chestInput']]
+            hand = handItems_dict[values['handInput']]
 
         speed = state * character * head * hand
-        if values["stormInput"]:
-            speed *= 0.4
+        
+        for i in exoticMults_dict:
+            if values["stormCheck"]:
+                speed *= 0.4
+
+        if values["roadCheck"]:
+            speed *= 1.3
+        
 
         window['output0'].update('You will get {0} speed.'.format(speed))
 
