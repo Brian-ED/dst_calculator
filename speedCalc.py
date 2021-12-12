@@ -1,4 +1,4 @@
-from tkinter.constants import DISABLED
+#from tkinter.constants import DISABLED # Looks like an unused import.
 import PySimpleGUI as sg
 import pyperclip
 
@@ -40,6 +40,9 @@ DictToList(chestItems_dict,chestItems_names)
 handItems_names = []
 DictToList(handItems_dict,handItems_names)
 
+beefDict_names = []
+DictToList(beef_dict, beefDict_names)
+
 layout = [
     # Character state : in other words, dead, alive, or is a beefalo
     [sg.Text('Choose your state:')],
@@ -50,7 +53,7 @@ layout = [
     [sg.InputCombo(charMult_names, key="charInput", visible=True, default_value="Other characters", enable_events=True)],
 
     # Beefalo trait
-    [sg.InputCombo(beef_dict, key="beefInput", visible=False, default_value="Default", enable_events=True)],
+    [sg.InputCombo(beefDict_names, key="beefInput", visible=False, default_value="Default", enable_events=True)],
 
     # Head slot
     [sg.Text("Choose your head item:")],
@@ -98,18 +101,22 @@ while True:
 
     if event == 'Calculate':
 
+        # Fixed a bit of code here, because stateInput in state was running through dict and turned from "player" into 6
+        # and was unable to be checked correctly. TODO: beefalo saddles.
+
         state = charStates_dict[values["stateInput"]]
-        if state == "player":
+        if values['stateInput'] == "player":
             character = charMult_dict[values["charInput"]]
             head = headItems_dict[values['headInput']]
             chest = chestItems_dict[values['chestInput']]
             hand = handItems_dict[values['handInput']]
 
         speed = state * character * head * hand
-        
-        for i in exoticMults_dict:
-            if values["stormCheck"]:
-                speed *= 0.4
+
+        # Not sure why you used "for in" here, the "i" seems like it's unused anyway, so I removed that.
+
+        if values["stormCheck"]:
+            speed *= 0.4
 
         if values["roadCheck"]:
             speed *= 1.3
