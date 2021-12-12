@@ -5,18 +5,19 @@ import pyperclip
 speed = ""
 
 # Character states:
-charStates_dict = {"player":6, "ghost":3.6, "normal beefalo":7}
+charStates_dict = {"Player":6, "Ghost":3.6, "Default beefalo":7 ,"Ornery beefalo":7, "Rider beefalo":8, "Pudgy":6.5}
 
 # some if statement to make sure you dont pick beef setting that i'm planning to add later.
 charMult_dict = {"Other characters" : 1, "WX-78 overcharge" : 1.5, "Wormwood bloom" : 1.2 ,"Woodie beaver" : 1.1, "Woodie goose" : 1.4, "Woodie moose" : 0.9}
-beef_dict = {"Default":1 ,"Ornery":1, "Rider":1.14285714286, "Pudgy":6.5}
 
 # Items
 handItems_dict = {"Empty":1,"Thulicite club" : 1.1, "Walking cane" : 1.25, "Lazy explorer" : 1.25}
 headItems_dict = {"Empty":1, "Ice cube":0.9}
 chestItems_dict = {"Empty":1, "Marble armor" : 0.7, "Piggy back" : 0.9, "Magiluminecense" : 1.2}
 
-exoticMults_dict = {"Road" : 1.3, "Webbing" : 0.6, "Antlion sinkhole" : 0.3, "Honey trail" : 0.4}
+exoticMults_dict = {"stormCheck":0.4,"roadCheck" : 1.3, "webbingCheck" : 0.6, "AntlionCheck" : 0.3, "honeyCheck" : 0.4}
+
+saddles_dict = {"Default":1.4, "Glossomor":1.55, "WarSaddle":1.25}
     
 # Layout
 
@@ -40,20 +41,20 @@ DictToList(chestItems_dict,chestItems_names)
 handItems_names = []
 DictToList(handItems_dict,handItems_names)
 
-beefDict_names = []
-DictToList(beef_dict, beefDict_names)
+saddles_names = []
+DictToList(saddles_dict, saddles_names)
+
+exoticMults_names = []
+DictToList(exoticMults_dict,exoticMults_names)
 
 layout = [
     # Character state : in other words, dead, alive, or is a beefalo
     [sg.Text('Choose your state:')],
-    [sg.InputCombo(charStates_names,key="stateInput", enable_events=True, default_value="player")],
+    [sg.InputCombo(charStates_names,key="stateInput", enable_events=True, default_value="Player")],
 
     # Character buff
     [sg.Text("Choose your character:")],
     [sg.InputCombo(charMult_names, key="charInput", visible=True, default_value="Other characters", enable_events=True)],
-
-    # Beefalo trait
-    [sg.InputCombo(beefDict_names, key="beefInput", visible=False, default_value="Default", enable_events=True)],
 
     # Head slot
     [sg.Text("Choose your head item:")],
@@ -67,15 +68,21 @@ layout = [
     [sg.Text("Choose your hand item:")],
     [sg.InputCombo(handItems_names, key="handInput", default_value="Empty", enable_events=True)],
 
-    # Output text
-    [sg.Text(size=(60,1), key='output0')],
+    # Saddle
+
+    [sg.Text("Choose your saddle")],
+    [sg.InputCombo(saddles_names, key="saddlesInput", default_value="Default", enable_events=True)],
+
 
     # Checkboxes
-    [sg.Checkbox("Storm",key="stormCheck")], # {"Road" : 1.3, "Webbing" : 0.6, "Antlion sinkhole" : 0.3, "Honey trail" : 0.4}
-    [sg.Checkbox("Road",key="roadCheck")],
-    [sg.Checkbox("Webbing",key="webbingCheck")],
-    [sg.Checkbox("Antlion sinkhole",key="AntlionCheck")],
-    [sg.Checkbox("Honey trail",key="stormInput")],
+    [sg.Checkbox("Storm",key="stormCheck"),
+    sg.Checkbox("Road",key="roadCheck"),
+    sg.Checkbox("Webbing",key="webbingCheck"),
+    sg.Checkbox("Antlion sinkhole",key="AntlionCheck"),
+    sg.Checkbox("Honey trail",key="honeyCheck")],
+
+    # Output text
+    [sg.Text(size=(60,1), key='output0')],
 
     # Buttons
     [sg.Button("Calculate"), sg.Button("Exit"),sg.Button("Copy to clipboard")]
@@ -90,37 +97,36 @@ while True:
     if event == sg.WINDOW_CLOSED or event == 'Exit':
         break
 
-    if values["stateInput"] != "player":
+    if values["stateInput"] != "Player":
         window['charInput'].update(visible=False)
     else: window['charInput'].update(visible=True)
 
-    if values["stateInput"] != "normal beefalo":
-        window["beefInput"].update(visible=False)
-    else: window['beefInput'].update(visible=True)
 
 
     if event == 'Calculate':
 
-        # Fixed a bit of code here, because stateInput in state was running through dict and turned from "player" into 6
-        # and was unable to be checked correctly. TODO: beefalo saddles.
+        # TODO: beefalo saddles.
 
         state = charStates_dict[values["stateInput"]]
-        if values['stateInput'] == "player":
+        if values['stateInput'] == "Player":
             character = charMult_dict[values["charInput"]]
             head = headItems_dict[values['headInput']]
             chest = chestItems_dict[values['chestInput']]
             hand = handItems_dict[values['handInput']]
+            speed = state * character * head * hand
 
-        speed = state * character * head * hand
+        elif values['stateInput'] == "Default beefalo": #"Player":6, "Ghost":3.6, "Default beefalo":7 ,"Ornery beefalo":7, "Rider beefalo":8, "Pudgy":6.5
+            
+            speed = saddles_dict[values["saddlesInput"]]*charStates_dict[values["stateInput"]]
 
-        # Not sure why you used "for in" here, the "i" seems like it's unused anyway, so I removed that.
+
+        for i in range(0, len(exoticMults_names)):
+            if values[exoticMults_names[i]]:
+                speed *= exoticMults_dict[i]
 
         if values["stormCheck"]:
             speed *= 0.4
 
-        if values["roadCheck"]:
-            speed *= 1.3
-        
 
         window['output0'].update('You will get {0} speed.'.format(speed))
 
