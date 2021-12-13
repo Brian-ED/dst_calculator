@@ -5,7 +5,7 @@ import pyperclip
 speed = ""
 
 # Character states:
-charStates_dict = {"Player":6, "Ghost":3.6, "Default beefalo":7 ,"Ornery beefalo":7, "Rider beefalo":8, "Pudgy":6.5}
+charStates_dict = {"Player":6, "Ghost":3.6, "Default beefalo":7 ,"Ornery beefalo":7, "Rider beefalo":8, "Pudgy beefalo":6.5}
 
 # some if statement to make sure you dont pick beef setting that i'm planning to add later.
 charMult_dict = {"Other characters" : 1, "WX-78 overcharge" : 1.5, "Wormwood bloom" : 1.2 ,"Woodie beaver" : 1.1, "Woodie goose" : 1.4, "Woodie moose" : 0.9}
@@ -54,24 +54,24 @@ layout = [
 
     # Character buff
     [sg.Text("Choose your character:")],
-    [sg.InputCombo(charMult_names, key="charInput", visible=True, default_value="Other characters", enable_events=True)],
+    [sg.InputCombo(charMult_names, key="charInput", default_value="Other characters", enable_events=True, disabled=False, visible=True)],
 
     # Head slot
     [sg.Text("Choose your head item:")],
-    [sg.InputCombo(headItems_names, key="headInput", default_value="Empty", enable_events=True)],
+    [sg.InputCombo(headItems_names, key="headInput", default_value="Empty", enable_events=True, disabled=False, visible=True)],
 
     # Chest items
     [sg.Text("Choose your chest item:")],
-    [sg.InputCombo(chestItems_names, key="chestInput", default_value="Empty", enable_events=True)],
+    [sg.InputCombo(chestItems_names, key="chestInput", default_value="Empty", enable_events=True, disabled=False, visible=True)],
 
     # Hand slot
     [sg.Text("Choose your hand item:")],
-    [sg.InputCombo(handItems_names, key="handInput", default_value="Empty", enable_events=True)],
+    [sg.InputCombo(handItems_names, key="handInput", default_value="Empty", enable_events=True, disabled=False, visible=True)],
 
     # Saddle
 
     [sg.Text("Choose your saddle")],
-    [sg.InputCombo(saddles_names, key="saddlesInput", default_value="Default", enable_events=True)],
+    [sg.InputCombo(saddles_names, key="saddlesInput", default_value="Default", enable_events=True, disabled=True)],
 
 
     # Checkboxes
@@ -97,10 +97,29 @@ while True:
     if event == sg.WINDOW_CLOSED or event == 'Exit':
         break
 
-    if values["stateInput"] != "Player":
-        window['charInput'].update(visible=False)
-    else: window['charInput'].update(visible=True)
+    if values['stateInput'] == "Player":
+        window['charInput'].update(disabled=False)
+        window['headInput'].update(disabled=False)
+        window['chestInput'].update(disabled=False)
+        window["handInput"].update(disabled=False)
+        window['headInput'].update(disabled=False)
+        window['saddlesInput'].update(disabled=True)
 
+    elif values['stateInput'] == "Default beefalo" or values['stateInput'] == "Ornery beefalo" or values['stateInput'] == "Rider beefalo" or values['stateInput'] == "Pudgy beefalo":
+        window['charInput'].update(disabled=True)
+        window['headInput'].update(disabled=True)
+        window['chestInput'].update(disabled=True)
+        window["handInput"].update(disabled=True)
+        window['headInput'].update(disabled=True)
+        window['saddlesInput'].update(disabled=False)
+    
+    elif values["stateInput"] == "Ghost":
+        window['charInput'].update(disabled=True)
+        window['headInput'].update(disabled=True)
+        window['chestInput'].update(disabled=True)
+        window["handInput"].update(disabled=True)
+        window['headInput'].update(disabled=True)
+        window['saddlesInput'].update(disabled=True)
 
 
     if event == 'Calculate':
@@ -109,23 +128,24 @@ while True:
 
         state = charStates_dict[values["stateInput"]]
         if values['stateInput'] == "Player":
+
             character = charMult_dict[values["charInput"]]
             head = headItems_dict[values['headInput']]
             chest = chestItems_dict[values['chestInput']]
             hand = handItems_dict[values['handInput']]
-            speed = state * character * head * hand
+            speed = state * character * head * chest * hand
 
-        elif values['stateInput'] == "Default beefalo": #"Player":6, "Ghost":3.6, "Default beefalo":7 ,"Ornery beefalo":7, "Rider beefalo":8, "Pudgy":6.5
+        elif values['stateInput'] == "Default beefalo" or values['stateInput'] == "Ornery beefalo" or values['stateInput'] == "Rider beefalo" or values['stateInput'] == "Pudgy beefalo": #"Player":6, "Ghost":3.6, "Default beefalo":7 ,"Ornery beefalo":7, "Rider beefalo":8, "Pudgy beefalo":6.5
             
             speed = saddles_dict[values["saddlesInput"]]*charStates_dict[values["stateInput"]]
 
+        elif values["stateInput"] == "Ghost":
+            speed = charStates_dict[values["stateInput"]]
 
-        for i in range(0, len(exoticMults_names)):
-            if values[exoticMults_names[i]]:
-                speed *= exoticMults_dict[i]
-
-        if values["stormCheck"]:
-            speed *= 0.4
+        if values["stateInput"] != "Ghost":
+            for i in range(0, len(exoticMults_names)):
+                if values[exoticMults_names[i]]:
+                    speed *= exoticMults_dict[exoticMults_names[i]]
 
 
         window['output0'].update('You will get {0} speed.'.format(speed))
