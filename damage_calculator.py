@@ -1,6 +1,7 @@
 import PySimpleGUI as sg
 import math
 import copy
+from pyperclip import copy as copy_to_cb
 damage_dict = {"Dark Sword": 68, "Glass Cutter": 68, "Glass Cutter (attacking a shadow)": 68,
                "Thulecite Club": 59.5, "Ham Bat": 59.5, "Weremoose": 59.5, "Tentacle Spike": 51,
                "Bat Bat": 42.5, "Battle Spear": 42.5, "Spear": 34, "Morning Star": 28.9,
@@ -61,7 +62,7 @@ layout = [
     [sg.Text(size=(60,1), key='output1')],
     [sg.Text(size=(60,1), key='output2')],
     [sg.Text(size=(60,1), key='output3')],
-    [sg.Button('Calculate'), sg.Button('Exit')]]
+    [sg.Button('Calculate'), sg.Button('Exit'), sg.Button("Copy to clipboard", disabled=True)]]
 
 window = sg.Window('DST Damage Calculator', layout)
 
@@ -100,7 +101,6 @@ while True:
         window['specinput'].update(values=(walter_dict_keys), visible=True)
     window['spectext'].update()
     window['specinput'].update()
-    print(values['weaponinput'])
     # See if user wants to quit or window was closed
     if event == sg.WINDOW_CLOSED or event == 'Exit':
         break
@@ -129,16 +129,25 @@ while True:
         hits = math.ceil(hits)
         if values['characterinput'] == "Wes":
             weapons *= 0.75
-        window['output0'].update('You will deal {0} damage.'.format(damage))
-        window['output1'].update('You will need to hit the enemy {0} times.'.format(hits))
+        result0 = damage
+        window['output0'].update('You will deal {0} damage.'.format(result0))
+        result1 = hits
+        window['output1'].update('You will need to hit the enemy {0} times.'.format(result1))
+        result2 = 1
         if durability > 0:
-            window['output2'].update('You will need {0} of your weapons.'.format(math.ceil(weapons)))
+            result2 = math.ceil(weapons)
+            window['output2'].update('You will need {0} of your weapons.'.format(result2))
         if values['weaponinput'] != "Boomerang" and values['weaponinput'][0:8] != "Alarming" and values['weaponinput'][0:6] != "Trusty":
-            window['output3'].update("You will need around {0} seconds to kill the enemy if you will tank.".format((hits/2)*1.05))
+            result3 = (hits / 2) * 1.05
         if values['weaponinput'][0:8] == "Alarming":
-            window['output3'].update("You will need around {0} seconds to kill the enemy if you will tank.".format((hits/2)*1.307*1.05))
+            result3 = (hits / 2) * 1.307 * 1.05
         if values['weaponinput'][0:6] == "Trusty":
-            window['output3'].update("You will need around {0} seconds to kill the enemy if you will tank.".format((hits)*1.05))
+            result3 = (hits) * 1.05
+        result3 = math.ceil(result3)
+        window['output3'].update("You will need around {0} seconds to kill the enemy if you will tank.".format(result3))
+        window['Copy to clipboard'].update(disabled=False)
+    if event == "Copy to clipboard":
+        copy_to_cb("Damage: {}, Hits: {}, Weapons: {}, Seconds: {}".format(result0, result1, result2, result3))
 
 # Finish up by removing from the screen
 window.close()
