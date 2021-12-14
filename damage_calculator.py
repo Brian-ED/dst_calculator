@@ -124,13 +124,13 @@ while True:
                 damage *= 2.5
             else:
                 damage *= 1.5
+        if values['cccrowninput']:
+            damage += 42.5
         hits = values['healthinput'] / damage
         if values['warbleinput']:
             if durability > 1:
                 durability *= 1.25
         weapons = values['healthinput'] / damage / durability
-        if values['cccrowninput']:
-            damage += 42.5
         hits = math.ceil(hits)
         if values['characterinput'] == "Wes":
             weapons *= 0.75
