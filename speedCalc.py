@@ -146,9 +146,15 @@ while True:
             speed = charStates_dict[values["stateInput"]]
 
         if values["stateInput"] != "Ghost":
-            for i in range(0, len(exoticMults_names)):
-                if values[exoticMults_names[i]]:
-                    speed *= exoticMults_dict[exoticMults_names[i]]
+            
+            if values['stateInput'] == "Default beefalo":
+                for i in range(0, len(exoticMults_names)):
+                    if values[exoticMults_names[i]]:
+                        speed *= exoticMults_dict[exoticMults_names[i]]
+            else:
+                for i in range(0, len(exoticMults_names)):
+                    if values[exoticMults_names[i]]:
+                        speed *= exoticMults_dict[exoticMults_names[i]]
 
 
         window['output0'].update('You will get {0} speed.'.format(speed))

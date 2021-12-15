@@ -1,6 +1,7 @@
 #from tkinter.constants import DISABLED # Looks like an unused import.
 import PySimpleGUI as sg
 import pyperclip
+import random
 
 # Layout
 
@@ -13,28 +14,82 @@ layout = [
 
     # Output text
     [sg.Text(size=(60,1), key='output0')],
+    [sg.Text(size=(60,1), key='output1')],
+    [sg.Text(size=(60,1), key='output2')],
+    [sg.Text(size=(60,1), key='output3')],
+    [sg.Text(size=(60,1), key='output4')],
 
     # Buttons
-    [sg.Button("Exit"),sg.Button("Copy to clipboard")]
+    [sg.Button("Exit"),sg.Button("Copy to clipboard"),sg.Button("Settings")]
 ]
 
 window = sg.Window("DST Speed Calculator", layout)
 
+bookUses100 = 0
+bookUses20 = 0
+staffUses = 0
+totalStrikes = 0
+
+mins = 0
+
+settings_open = False
+
 while True:
+
     event, values = window.read()
+
+    if settings_open == False:
+        if event == "Settings":
+            settingsLayout = [
+            
+            [sg.Button("100%1"), sg.Button("20%1")],
+
+            # Buttons
+            [sg.Button("Exit")]
+            ]
+            settingsWindow = sg.Window("Settings menu", settingsLayout)
+            settings_open = True
+
+
+    if settings_open == True:
+        settingsEvent, settingsValues = settingsWindow.read()
     
     # See if user wants to quit or window was closed
     if event == sg.WINDOW_CLOSED or event == 'Exit':
         break
-    if event == "book100%":
-        window
 
+    if settingsEvent == sg.WINDOW_CLOSED or settingsEvent == 'Exit':
+        break
 
+    if event == "100%":
+        bookUses100 += 1
+        for _ in range(0,85):
+            mins += ((24/(mins+24)) * 4) * (1+((random.random()*(24/(mins+24)))))
+            totalStrikes += 1
 
-    window['output0'].update('You will get {0} speed.'.format())
+    if event == "20%":
+        bookUses20 += 1
+        if bookUses20 == 5:
+            bookUses100 += 1
+            bookUses20 -= 5
+        for _ in range(0,17):
+            mins += ((24/(mins+24)) * 4) * (1+((random.random()*(24/(mins+24)))))
+            totalStrikes += 1
+
+    if event == "":
+        staffUses += 1
+        mins += ((24/(mins+24)) * 4) * (1+((random.random()*(24/(mins+24)))))
+        totalStrikes += 1
+
+    window['output0'].update('You will get {} minutes.'.format(mins))
+    window['output1'].update('You have been striked {} times.'.format(totalStrikes))
+    window['output2'].update('You have used staff {} times.'.format(staffUses))
+    window['output3'].update("You have used {}% ".format(bookUses20*20) + "of a book extra.")
+    window['output4'].update('You have used {} books.'.format(bookUses100))
 
     if event == "Copy to clipboard":
-        pyperclip.copy('{0}'.format())
+        pyperclip.copy('{0}'.format(mins))
+
 
 
 window.close()
