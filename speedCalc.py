@@ -1,4 +1,3 @@
-#from tkinter.constants import DISABLED # Looks like an unused import.
 import PySimpleGUI as sg
 import pyperclip
 

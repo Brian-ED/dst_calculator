@@ -41,7 +41,7 @@ while True:
     if settings_open == False:
         if event == "Settings":
             settingsLayout = [
-            
+
             [sg.Button("100%1"), sg.Button("20%1")],
 
             # Buttons
@@ -53,7 +53,7 @@ while True:
 
     if settings_open == True:
         settingsEvent, settingsValues = settingsWindow.read()
-    
+
     # See if user wants to quit or window was closed
     if event == sg.WINDOW_CLOSED or event == 'Exit':
         break
