@@ -59,7 +59,8 @@ while True:
         break
 
     if settingsEvent == sg.WINDOW_CLOSED or settingsEvent == 'Exit':
-        break
+        settingsWindow.close()
+        settings_open = False
 
     if event == "100%":
         bookUses100 += 1
