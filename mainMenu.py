@@ -1,14 +1,14 @@
-import WX78Calc
-# import speedCalc
-# import temperature_calculator_optimized as tempCalc
+import temperature_calculator as tempCalc
 import PySimpleGUI as sg
 
 # Layout
 
 mainMenuLayout = [
 
-    [sg.Button("Speed calculator"), sg.Button("WX-78 overcharge calculator")],
+    [sg.Button("Speed calculator")],
+    [sg.Button("WX-78 overcharge calculator")],
     [sg.Button("Temperature calculator")],
+    [sg.Button("Damage calculator")],
 
 
     # Buttons
@@ -29,11 +29,18 @@ while True:
 
     if mainMenuEvent == "WX-78 overcharge calculator":
         mainMenuWindow.close()
-        WX78Calc.WX78Calcpy()
+        import WX78Calc
         break
 
-#    if event == "Temperature calculator":
-#        tempCalc()
+    if mainMenuEvent == "Temperature calculator":
+        mainMenuWindow.close()
+        tempCalc.insulation()
+
+    if mainMenuEvent == "Speed calculator":
+        import speedCalc
+
+    if mainMenuEvent == "Damage calculator":
+        import damage_calculator
 
 
 mainMenuWindow.close()
