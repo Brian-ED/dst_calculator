@@ -16,6 +16,7 @@ exoticMults_dict = {"stormCheck":0.4,"roadCheck" : 1.3, "webbingCheck" : 0.6, "A
 
 saddles_dict = {"Default":1.4, "Glossomor":1.55, "WarSaddle":1.25}
 
+exceptions_list = [["chestInput","Sculpture",0,1,0,1,1]]
 
 # Layout
 
@@ -72,6 +73,16 @@ layout = [
 
 window = sg.Window("DST Speed Calculator", layout)
 
+
+# Experiment where i simplify all the true and falses into one function:
+def updateWindow(charInput, headInput, chestInput, handInput, saddlesInput):
+    window["charInput"].update(disabled=bool(charInput))
+    window["headInput"].update(disabled=bool(headInput))
+    window["chestInput"].update(disabled=bool(chestInput))
+    window["handInput"].update(disabled=bool(handInput))
+    window["saddlesInput"].update(disabled=bool(saddlesInput))
+
+
 while True:
     event, values = window.read()
     
@@ -80,45 +91,25 @@ while True:
         break
 
     if values["stateInput"] == "Player":
-        window["charInput"].update(disabled=False)
-        window["headInput"].update(disabled=False)
-        window["chestInput"].update(disabled=False)
-        window["handInput"].update(disabled=False)
-        window["headInput"].update(disabled=False)
-        window["saddlesInput"].update(disabled=True)
-             
-        if values["chestInput"] == "Sculpture":
-            window["charInput"].update(disabled=False)
-            window["headInput"].update(disabled=True)
-            window["chestInput"].update(disabled=False)
-            window["handInput"].update(disabled=True)
-            window["headInput"].update(disabled=True)
-            window["saddlesInput"].update(disabled=True)
+        updateWindow(0,0,0,0,1)
+
+        for i in range(0,len(exceptions_list)): # [["chestInput","Sculpture",0,0,0,0,1]]
+            if values[exceptions_list[i][0]] == exceptions_list[i][1]:
+                print(exceptions_list[i][2])
+                updateWindow(exceptions_list[i][2],exceptions_list[i][3],exceptions_list[i][4],exceptions_list[i][5],exceptions_list[i][6])
+
+        #if values["chestInput"] == "Sculpture":
+        #    updateWindow(0,1,0,1,1)
 
     elif values["stateInput"] == "Default beefalo" or values['stateInput'] == "Ornery beefalo" or values['stateInput'] == "Rider beefalo" or values['stateInput'] == "Pudgy beefalo":
-        window["charInput"].update(disabled=True)
-        window["headInput"].update(disabled=True)
-        window["chestInput"].update(disabled=True)
-        window["handInput"].update(disabled=True)
-        window["headInput"].update(disabled=True)
-        window["saddlesInput"].update(disabled=False)
+        updateWindow(1,1,1,1,0)
     
     elif values["stateInput"] == "Ghost":
-        window["charInput"].update(disabled=True)
-        window["headInput"].update(disabled=True)
-        window["chestInput"].update(disabled=True)
-        window["handInput"].update(disabled=True)
-        window["headInput"].update(disabled=True)
-        window["saddlesInput"].update(disabled=True)
+        updateWindow(1,1,1,1,1)
 
     form = values['charInput']
     if form == "Woodie beaver" or form == "Woodie goose" or form == "Woodie moose":
-        window["charInput"].update(disabled=False)
-        window["headInput"].update(disabled=True)
-        window["chestInput"].update(disabled=True)
-        window["handInput"].update(disabled=True)
-        window["headInput"].update(disabled=True)
-        window["saddlesInput"].update(disabled=True)
+        updateWindow(0,1,1,1,1)
 
 
     if event == 'Calculate':
