@@ -128,7 +128,7 @@ while True:
             else: 
                 speed = state * character * head * chest * hand
 
-        elif values['stateInput'] == "Default beefalo" or values['stateInput'] == "Ornery beefalo" or values['stateInput'] == "Rider beefalo" or values['stateInput'] == "Pudgy beefalo": #"Player":6, "Ghost":3.6, "Default beefalo":7 ,"Ornery beefalo":7, "Rider beefalo":8, "Pudgy beefalo":6.5
+        elif values['stateInput'] == "Default beefalo" or values['stateInput'] == "Ornery beefalo" or values['stateInput'] == "Rider beefalo" or values['stateInput'] == "Pudgy beefalo": 
             
             speed = saddles_dict[values["saddlesInput"]]*state
 
@@ -137,10 +137,11 @@ while True:
 
         if values["stateInput"] != "Ghost":
             
-            if values['stateInput'] == "Default beefalo":
+            if values['stateInput'] == "Default beefalo" or values['stateInput'] == "Ornery beefalo" or values['stateInput'] == "Rider beefalo" or values['stateInput'] == "Pudgy beefalo":
                 for i in range(0, len(exoticMults_names)):
                     if values[exoticMults_names[i]]:
-                        speed *= exoticMults_dict[exoticMults_names[i]]
+                        if exoticMults_names[i] != "roadCheck" or exoticMults_names[i] != "stormCheck":
+                            speed *= exoticMults_dict[exoticMults_names[i]]
             else:
                 for i in range(0, len(exoticMults_names)):
                     if values[exoticMults_names[i]]:
