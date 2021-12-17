@@ -23,14 +23,10 @@ while True:
     # See if user wants to quit or window was closed
     if mainMenuEvent == sg.WINDOW_CLOSED or mainMenuEvent == 'Exit':
         break
-    
-#    if event == "Speed calculator":
-#        speedCalc()
 
     if mainMenuEvent == "WX-78 overcharge calculator":
         mainMenuWindow.close()
         import WX78Calc
-        break
 
     if mainMenuEvent == "Temperature calculator":
         mainMenuWindow.close()
