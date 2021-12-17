@@ -131,9 +131,7 @@ while True:
 
         speed = (state**prevState) * (character**prevchar) * (head**prevhead) * (chest**prevchest) * (hand**prevhand) * (saddles**prevsaddle)
 
-        # Adds on all the extra speedbuffs, like road, storm, etc. 
-
-# if exoticMults_names[i] != "roadCheck" or exoticMults_names[i] != "stormCheck":   
+        # Adds on all the extra speedbuffs, like road, storm, etc.  
                  
         for i in range(0, len(exoticMults_names)):
             if values[exoticMults_names[i]]:
