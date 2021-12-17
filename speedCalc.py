@@ -1,3 +1,4 @@
+from random import seed
 import PySimpleGUI as sg
 import pyperclip
 
@@ -16,7 +17,19 @@ exoticMults_dict = {"stormCheck":0.4,"roadCheck" : 1.3, "webbingCheck" : 0.6, "A
 
 saddles_dict = {"Default":1.4, "Glossomor":1.55, "WarSaddle":1.25}
 
-exceptions_list = [["chestInput","Sculpture",0,1,0,1,1]]
+# the six didgets in order mean if the following should be disabled: state, character, head, chest, hand, saddle.
+# 0 means they shall not be touched, 1 means they should be off.
+
+exceptions_list=[["stateInput","Player"         ,0,0,0,0,0,1],
+                ["chestInput","Sculpture"       ,0,0,1,0,1,1],
+                ["charInput","Woodie beaver"    ,0,0,1,1,1,1],
+                ["charInput","Woodie goose"     ,0,0,1,1,1,1],
+                ["charInput","Woodie moose"     ,0,0,1,1,1,1],
+                ["stateInput", "Ghost"          ,0,1,1,1,1,1],
+                ["stateInput", "Default beefalo",0,1,1,1,1,0],
+                ["stateInput", "Ornery beefalo" ,0,1,1,1,1,0],
+                ["stateInput", "Rider beefalo"  ,0,1,1,1,1,0],
+                ["stateInput", "Pudgy beefalo"  ,0,1,1,1,1,0]]
 
 # Layout
 
@@ -32,7 +45,7 @@ exoticMults_names = list(exoticMults_dict)
 
 layout = [
     # Character state : in other words, dead, alive, or is a beefalo
-    [sg.Text('Choose your state:')],
+    [sg.Text("Choose your state:")],
     [sg.InputCombo(charStates_names,key="stateInput", enable_events=True, default_value="Player")],
 
     # Character buff
@@ -65,7 +78,7 @@ layout = [
     sg.Checkbox("Honey trail",key="honeyCheck")],
 
     # Output text
-    [sg.Text(size=(60,1), key='output0')],
+    [sg.Text(size=(60,1), key="output0")],
 
     # Buttons
     [sg.Button("Calculate"), sg.Button("Exit"),sg.Button("Copy to clipboard")]
@@ -74,84 +87,67 @@ layout = [
 window = sg.Window("DST Speed Calculator", layout)
 
 
-# Experiment where i simplify all the true and falses into one function:
-def updateWindow(charInput, headInput, chestInput, handInput, saddlesInput):
+# i simplify all the true and falses into one function:
+def updateWindow(stateInput, charInput, headInput, chestInput, handInput, saddlesInput):
+    window["stateInput"].update(disabled=bool(stateInput))
     window["charInput"].update(disabled=bool(charInput))
     window["headInput"].update(disabled=bool(headInput))
     window["chestInput"].update(disabled=bool(chestInput))
     window["handInput"].update(disabled=bool(handInput))
     window["saddlesInput"].update(disabled=bool(saddlesInput))
 
-
 while True:
     event, values = window.read()
     
     # See if user wants to quit or window was closed
-    if event == sg.WINDOW_CLOSED or event == 'Exit':
+    if event == sg.WINDOW_CLOSED or event == "Exit":
         break
 
-    if values["stateInput"] == "Player":
-        updateWindow(0,0,0,0,1)
+    for i in range(0,len(exceptions_list)):
+        if values[exceptions_list[i][0]] == exceptions_list[i][1]:
+            updateWindow(exceptions_list[i][2],exceptions_list[i][3],exceptions_list[i][4],exceptions_list[i][5],exceptions_list[i][6],exceptions_list[i][7])
 
-        for i in range(0,len(exceptions_list)): # [["chestInput","Sculpture",0,0,0,0,1]]
-            if values[exceptions_list[i][0]] == exceptions_list[i][1]:
-                print(exceptions_list[i][2])
-                updateWindow(exceptions_list[i][2],exceptions_list[i][3],exceptions_list[i][4],exceptions_list[i][5],exceptions_list[i][6])
+    # When the calculate button has been hit, it will calculate all the multipliers selected.
 
-        #if values["chestInput"] == "Sculpture":
-        #    updateWindow(0,1,0,1,1)
-
-    elif values["stateInput"] == "Default beefalo" or values['stateInput'] == "Ornery beefalo" or values['stateInput'] == "Rider beefalo" or values['stateInput'] == "Pudgy beefalo":
-        updateWindow(1,1,1,1,0)
-    
-    elif values["stateInput"] == "Ghost":
-        updateWindow(1,1,1,1,1)
-
-    form = values['charInput']
-    if form == "Woodie beaver" or form == "Woodie goose" or form == "Woodie moose":
-        updateWindow(0,1,1,1,1)
-
-
-    if event == 'Calculate':
+    if event == "Calculate":
         
-        chest = chestItems_dict[values['chestInput']]
-        character = charMult_dict[values["charInput"]]
-        head = headItems_dict[values['headInput']]
         state = charStates_dict[values["stateInput"]]
-        hand = handItems_dict[values['handInput']]
+        character = charMult_dict[values["charInput"]]
+        head = headItems_dict[values["headInput"]]
+        chest = chestItems_dict[values["chestInput"]]
+        hand = handItems_dict[values["handInput"]]
+        saddles = saddles_dict[values["saddlesInput"]]
 
-        if values['stateInput'] == "Player":
-            if form == "Woodie beaver" or form == "Woodie goose" or form == "Woodie moose":
-                speed = state * charMult_dict[values["charInput"]]
-            elif values['chestInput'] == "Sculpture":
-                speed = state*character*chest
-            else: 
-                speed = state * character * head * chest * hand
+        prevState, prevchar, prevhead, prevchest, prevhand, prevsaddle = 0, 0, 0, 0, 0, 0
+        
+        for i in range(0,len(exceptions_list)):
+            if values[exceptions_list[i][0]] == exceptions_list[i][1]:
+                prevState = prevState or 0**exceptions_list[i][2]
+                prevchar = prevchar or 0**exceptions_list[i][3]
+                prevhead = prevhead or 0**exceptions_list[i][4]
+                prevchest = prevchest or 0**exceptions_list[i][5]
+                prevhand = prevhand or 0**exceptions_list[i][6]
+                prevsaddle = prevsaddle or 0**exceptions_list[i][7]
 
-        elif values['stateInput'] == "Default beefalo" or values['stateInput'] == "Ornery beefalo" or values['stateInput'] == "Rider beefalo" or values['stateInput'] == "Pudgy beefalo": 
-            
-            speed = saddles_dict[values["saddlesInput"]]*state
+        speed = (state**prevState) * (character**prevchar) * (head**prevhead) * (chest**prevchest) * (hand**prevhand) * (saddles**prevsaddle)
 
-        elif values["stateInput"] == "Ghost":
-            speed = charStates_dict[values["stateInput"]]
+        # Adds on all the extra speedbuffs, like road, storm, etc. 
 
-        if values["stateInput"] != "Ghost":
-            
-            if values['stateInput'] == "Default beefalo" or values['stateInput'] == "Ornery beefalo" or values['stateInput'] == "Rider beefalo" or values['stateInput'] == "Pudgy beefalo":
-                for i in range(0, len(exoticMults_names)):
-                    if values[exoticMults_names[i]]:
-                        if exoticMults_names[i] != "roadCheck" or exoticMults_names[i] != "stormCheck":
-                            speed *= exoticMults_dict[exoticMults_names[i]]
-            else:
-                for i in range(0, len(exoticMults_names)):
-                    if values[exoticMults_names[i]]:
+# if exoticMults_names[i] != "roadCheck" or exoticMults_names[i] != "stormCheck":   
+                 
+        for i in range(0, len(exoticMults_names)):
+            if values[exoticMults_names[i]]:
+                if values["stateInput"] == "Default beefalo" or values["stateInput"] == "Ornery beefalo" or values["stateInput"] == "Rider beefalo" or values["stateInput"] == "Pudgy beefalo":
+                    if exoticMults_names[i] != "roadCheck" and exoticMults_names[i] != "stormCheck":
                         speed *= exoticMults_dict[exoticMults_names[i]]
+                        print(speed)
+                else:
+                    speed *= exoticMults_dict[exoticMults_names[i]]
 
-
-        window['output0'].update('You will get {0} speed.'.format(speed))
+        window["output0"].update("You will get {0} speed.".format(speed))
 
     if event == "Copy to clipboard":
-        pyperclip.copy('{0}'.format(speed))
+        pyperclip.copy("{0}".format(speed))
 
 
 window.close()
