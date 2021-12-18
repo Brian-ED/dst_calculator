@@ -1,6 +1,6 @@
 from random import seed
 import PySimpleGUI as sg
-import pyperclip
+from pyperclip import copy as copy_to_cb
 
 
 # Character states:
@@ -81,7 +81,7 @@ layout = [
     [sg.Text(size=(60,1), key="output0")],
 
     # Buttons
-    [sg.Button("Calculate"), sg.Button("Exit"),sg.Button("Copy to clipboard")]
+    [sg.Button("Calculate"), sg.Button("Exit"),sg.Button("Copy to clipboard",disabled=True)]
 ]
 
 window = sg.Window("DST Speed Calculator", layout)
@@ -146,8 +146,10 @@ while True:
 
         window["output0"].update("You will get {0} speed.".format(speed))
 
+        window['Copy to clipboard'].update(disabled=False)
+
     if event == "Copy to clipboard":
-        pyperclip.copy("{0}".format(speed))
+        copy_to_cb("{0}".format(speed))
 
 
 window.close()
