@@ -7,13 +7,13 @@ overheating_icon_data = "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAGTElEQVR
 
 def insulation():
     hat_dict = { "Winter Hat" : 120, "Beefalo Hat" : 240, "Tam o' Shanter" : 120, "Rabbit Earmuffs" : 60, "Cat Cap" : 60,
-                 "None" : 0}
+                 "None" : 0 }
     dress_dict = { "Dapper Vest" : 60, "Rain Coat" : 60, "Hibernation Vest" : 240, "Puffy Vest" : 240, "Breezy Vest" : 60,
-                   "None" : 0}
+                   "None" : 0 }
     hand_dict = { "Bernie" : 30, "None" : 0 }
     beard_dict = { "Wilson (Tier 3 Beard)" : 135, "Webber (Tier 3 Beard)" : 67.5, "Wilson (Tier 2 Beard)" : 45,
                    "Webber (Tier 2 Beard)" : 33.75, "Wilson (Tier 1 Beard)" : 15, "Webber (Tier 1 Beard)" : 11.25,
-                   "Woodie" : 45, "Were-Woodie" : 240, "Willow/Wes" : -30, "Other characters" : 0}
+                   "Woodie" : 45, "Were-Woodie" : 240, "Willow/Wes" : -30, "Other characters" : 0, "Overcharged WX-78" : 0 }
     hat_dict_keys = []
     for i in hat_dict.keys():
         hat_dict_keys.append(i)
@@ -26,8 +26,6 @@ def insulation():
     beard_dict_keys = []
     for i in beard_dict.keys():
         beard_dict_keys.append(i)
-    beard_dict_keys2 = copy.copy(beard_dict_keys)
-    beard_dict_keys2.append("Overcharged WX-78")
     sg.theme("DarkBlue13") # May be changed later
     layout = [
         [sg.Text('Choose your hat:                                                                      '),
@@ -38,7 +36,7 @@ def insulation():
         [sg.Text('Choose item in your hand:')],
         [sg.InputCombo((hand_dict_keys),key='hand_input', default_value="None", enable_events=True)],
         [sg.Text('Choose your character:')],
-        [sg.InputCombo((beard_dict_keys2), default_value="Other characters", size=(20, 1),
+        [sg.InputCombo((beard_dict_keys), default_value="Other characters", size=(20, 1),
                        key='beard_input', enable_events=True)],
         [sg.Text("Write your temperature:")],
         [sg.Input(key='degrees_input', default_text="50")],
@@ -82,6 +80,8 @@ def insulation():
                 window['Copy to clipboard'].update(disabled=False)
             else:
                 window['output0'].update('You will start freezing only after overcharging will end.')
+                window['output1'].update('')
+                window['output2'].update('')
                 window['Copy to clipboard'].update(disabled=True)
         if event == "Copy to clipboard":
             copy_to_cb("Insulation: {0}, Degrees loss per second: {1}, Freezing after: {2} seconds/{3} minutes".format(result0, result1, result2[0], result2[1]))
