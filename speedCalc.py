@@ -16,7 +16,7 @@ exoticMults_dict = {"stormCheck":0.4,"roadCheck" : 1.3, "webbingCheck" : 0.6, "A
 
 saddles_dict = {"Default":1.4, "Glossomor":1.55, "WarSaddle":1.25}
 
-# the six didgets in order mean if the following should be disabled: state, character, head, chest, hand, saddle.
+# The six didgets in order mean if the following should be disabled: state, character, head, chest, hand, saddle.
 # 0 means they shall not be touched, 1 means they should be off.
 
 exceptions_list=[["stateInput","Player"         ,0,0,0,0,0,1],
