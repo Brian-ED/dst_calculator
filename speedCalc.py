@@ -1,6 +1,5 @@
-from random import seed
 import PySimpleGUI as sg
-import pyperclip
+from pyperclip import copy as copy_to_cb
 
 
 # Character states:
@@ -81,7 +80,7 @@ layout = [
     [sg.Text(size=(60,1), key="output0")],
 
     # Buttons
-    [sg.Button("Calculate"), sg.Button("Exit"),sg.Button("Copy to clipboard")]
+    [sg.Button("Calculate"), sg.Button("Exit"),sg.Button("Copy to clipboard",disabled=True)]
 ]
 
 window = sg.Window("DST Speed Calculator", layout)
@@ -132,12 +131,11 @@ while True:
         speed = (state**prevState) * (character**prevchar) * (head**prevhead) * (chest**prevchest) * (hand**prevhand) * (saddles**prevsaddle)
 
         # Adds on all the extra speedbuffs, like road, storm, etc. 
-
-# if exoticMults_names[i] != "roadCheck" or exoticMults_names[i] != "stormCheck":   
                  
         for i in range(0, len(exoticMults_names)):
             if values[exoticMults_names[i]]:
-                if values["stateInput"] == "Default beefalo" or values["stateInput"] == "Ornery beefalo" or values["stateInput"] == "Rider beefalo" or values["stateInput"] == "Pudgy beefalo":
+                if values["stateInput"] == "Default beefalo" or values["stateInput"] == "Ornery beefalo" or \
+                   values["stateInput"] == "Rider beefalo" or values["stateInput"] == "Pudgy beefalo":
                     if exoticMults_names[i] != "roadCheck" and exoticMults_names[i] != "stormCheck":
                         speed *= exoticMults_dict[exoticMults_names[i]]
                         print(speed)
@@ -146,8 +144,10 @@ while True:
 
         window["output0"].update("You will get {0} speed.".format(speed))
 
+        window['Copy to clipboard'].update(disabled=False)
+
     if event == "Copy to clipboard":
-        pyperclip.copy("{0}".format(speed))
+        copy_to_cb("{0}".format(speed))
 
 
 window.close()

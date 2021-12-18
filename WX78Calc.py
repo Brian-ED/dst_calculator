@@ -1,5 +1,5 @@
 import PySimpleGUI as sg
-import pyperclip
+from pyperclip import copy as copy_to_cb
 import random
 
 
@@ -20,7 +20,7 @@ layout = [
         [sg.Text(size=(60,1), key='output4')],
 
         # Buttons
-        [sg.Button("Exit"),sg.Button("Copy to clipboard"),sg.Button("Settings")]
+        [sg.Button("Exit"),sg.Button("Copy to clipboard",disabled=True),sg.Button("Settings")]
     ]
 
 window = sg.Window("DST Speed Calculator", layout)
@@ -47,6 +47,7 @@ while True:
         for _ in range(0,85):
             mins += ((24/(mins+24)) * 4) * (1+((random.random()*(24/(mins+24)))))
             totalStrikes += 1
+        window['Copy to clipboard'].update(disabled=False)
 
     if event == "20%":
         bookUses20 += 1
@@ -56,11 +57,13 @@ while True:
         for _ in range(0,17):
             mins += ((24/(mins+24)) * 4) * (1+((random.random()*(24/(mins+24)))))
             totalStrikes += 1
+        window['Copy to clipboard'].update(disabled=False)
 
     if event == "":
         staffUses += 1
         mins += ((24/(mins+24)) * 4) * (1+((random.random()*(24/(mins+24)))))
         totalStrikes += 1
+        window['Copy to clipboard'].update(disabled=False)
 
     window['output0'].update('You will get {} minutes.'.format(mins))
     window['output1'].update('You have been striked {} times.'.format(totalStrikes))
@@ -69,8 +72,6 @@ while True:
     window['output4'].update('You have used {} books.'.format(bookUses100))
 
     if event == "Copy to clipboard":
-        pyperclip.copy('{0}'.format(mins))
-
-
+        copy_to_cb('{0}'.format(mins))
 
 window.close()
