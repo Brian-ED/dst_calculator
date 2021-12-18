@@ -12,21 +12,14 @@ def insulation():
     beard_dict = { "Wilson (Tier 3 Beard)" : 135, "Webber (Tier 3 Beard)" : 67.5, "Wilson (Tier 2 Beard)" : 45,
                    "Webber (Tier 2 Beard)" : 33.75, "Wilson (Tier 1 Beard)" : 15, "Webber (Tier 1 Beard)" : 11.25,
                    "Woodie" : 45, "Were-Woodie" : 240, "Willow/Wes" : -30, "Other characters" : 0}
-    hat_dict_keys = []
-    for i in hat_dict.keys():
-        hat_dict_keys.append(i)
-    dress_dict_keys = []
-    for i in dress_dict.keys():
-        dress_dict_keys.append(i)
-    hand_dict_keys = []
-    for i in hand_dict.keys():
-        hand_dict_keys.append(i)
-    beard_dict_keys = []
-    for i in beard_dict.keys():
-        beard_dict_keys.append(i)
+    
+    hat_dict_keys = list(hat_dict)
+    dress_dict_keys = list(dress_dict)
+    hand_dict_keys = list(hand_dict)
+    beard_dict_keys = list(beard_dict)
     beard_dict_keys2 = copy.copy(beard_dict_keys)
     beard_dict_keys2.append("Overcharged WX-78")
-    sg.theme("DarkBlue13") # May be changed later
+    sg.theme("DarkBlue13") # Maybe changed later
     layout = [
         [sg.Text('Choose your hat:                                                                                '),
          sg.Button("Insulation", tooltip="Swap to Overheating Protection")],

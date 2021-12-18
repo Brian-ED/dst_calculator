@@ -1,4 +1,3 @@
-from random import seed
 import PySimpleGUI as sg
 from pyperclip import copy as copy_to_cb
 
@@ -132,12 +131,11 @@ while True:
         speed = (state**prevState) * (character**prevchar) * (head**prevhead) * (chest**prevchest) * (hand**prevhand) * (saddles**prevsaddle)
 
         # Adds on all the extra speedbuffs, like road, storm, etc. 
-
-# if exoticMults_names[i] != "roadCheck" or exoticMults_names[i] != "stormCheck":   
                  
         for i in range(0, len(exoticMults_names)):
             if values[exoticMults_names[i]]:
-                if values["stateInput"] == "Default beefalo" or values["stateInput"] == "Ornery beefalo" or values["stateInput"] == "Rider beefalo" or values["stateInput"] == "Pudgy beefalo":
+                if values["stateInput"] == "Default beefalo" or values["stateInput"] == "Ornery beefalo" or \
+                   values["stateInput"] == "Rider beefalo" or values["stateInput"] == "Pudgy beefalo":
                     if exoticMults_names[i] != "roadCheck" and exoticMults_names[i] != "stormCheck":
                         speed *= exoticMults_dict[exoticMults_names[i]]
                         print(speed)
