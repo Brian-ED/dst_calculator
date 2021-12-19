@@ -55,7 +55,7 @@ layout = [
     [sg.Text(size=(60,1), key='output1')],
     [sg.Text(size=(60,1), key='output2')],
     [sg.Text(size=(60,1), key='output3')],
-    [sg.Button('Calculate'), sg.Button('Exit'), sg.Button("Copy to clipboard", disabled=True)]]
+    [sg.Button('Calculate'), sg.Button('Exit'), sg.Button("Copy to clipboard", disabled=True),sg.Text(size=(60,1), key='Error', text_color="red")]]
 
 window = sg.Window('DST Damage Calculator', layout)
 
@@ -100,7 +100,10 @@ while True:
     if event == 'Calculate':
         damage = float(damage_dict[values['weaponinput']][0] * character_dict[values['characterinput']])
         if values['weaponinput'][0:8] == "Alarming" or (values['weaponinput'][0:4] == "Dark" and values['characterinput'] == "Other characters"):
-            damage *= wanda_dict[values['specinput']]
+            try:
+                damage *= wanda_dict[values['specinput']]
+            except:
+                window["Error"].update("Please pick an age for Wanda")
         if values['weaponinput'][0:6] == "Trusty":
             damage += walter_dict[values['specinput']]
         durability = int(damage_dict[values['weaponinput']][1])
