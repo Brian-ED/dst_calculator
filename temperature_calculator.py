@@ -67,6 +67,7 @@ def insulation():
             window['beard_input'].update(disabled=False)
         # See if user wants to quit or window was closed
         if event == sg.WINDOW_CLOSED or event == 'Exit':
+            window.close()
             break
         if event == 'Calculate':
             if values['beard_input'] != "Overcharged WX-78":
