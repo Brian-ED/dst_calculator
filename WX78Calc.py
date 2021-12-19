@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 from pyperclip import copy as copy_to_cb
-import random
+from random import random as random
 
 
 # Layout
@@ -20,7 +20,7 @@ layout = [
         [sg.Text(size=(60,1), key='output4')],
 
         # Buttons
-        [sg.Button("Exit"),sg.Button("Copy to clipboard",disabled=True),sg.Button("Settings")]
+        [sg.Button("Exit"),sg.Button("Copy to clipboard",disabled=True)]
     ]
 
 window = sg.Window("DST Speed Calculator", layout)
@@ -30,9 +30,9 @@ bookUses20 = 0
 staffUses = 0
 totalStrikes = 0
 
-mins = 0
-
-settings_open = False
+def WXOCFormula(mins):
+    mins += (96*(1+(random()*24)/(24 + mins)))/(24+mins)
+    return mins
 
 while True:
 
@@ -45,7 +45,7 @@ while True:
     if event == "100%":
         bookUses100 += 1
         for _ in range(0,85):
-            mins += ((24/(mins+24)) * 4) * (1+((random.random()*(24/(mins+24)))))
+            mins = WXOCFormula(mins)
             totalStrikes += 1
         window['Copy to clipboard'].update(disabled=False)
 
@@ -55,13 +55,13 @@ while True:
             bookUses100 += 1
             bookUses20 -= 5
         for _ in range(0,17):
-            mins += ((24/(mins+24)) * 4) * (1+((random.random()*(24/(mins+24)))))
+            mins = WXOCFormula(mins)
             totalStrikes += 1
         window['Copy to clipboard'].update(disabled=False)
 
     if event == "":
         staffUses += 1
-        mins += ((24/(mins+24)) * 4) * (1+((random.random()*(24/(mins+24)))))
+        mins = WXOCFormula(mins)
         totalStrikes += 1
         window['Copy to clipboard'].update(disabled=False)
 
