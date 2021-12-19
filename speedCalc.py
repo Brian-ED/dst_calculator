@@ -49,24 +49,24 @@ layout = [
 
     # Character buff
     [sg.Text("Choose your character:")],
-    [sg.InputCombo(charMult_names, key="charInput", default_value="Other characters", enable_events=True, disabled=False, visible=True)],
+    [sg.InputCombo(charMult_names, key="charInput", default_value="Other characters", enable_events=True, disabled=False)],
 
     # Head slot
     [sg.Text("Choose your head item:")],
-    [sg.InputCombo(headItems_names, key="headInput", default_value="Empty", enable_events=True, disabled=False, visible=True)],
+    [sg.InputCombo(headItems_names, key="headInput", default_value="Empty", enable_events=True, disabled=False)],
 
     # Chest items
     [sg.Text("Choose your chest item:")],
-    [sg.InputCombo(chestItems_names, key="chestInput", default_value="Empty", enable_events=True, disabled=False, visible=True)],
+    [sg.InputCombo(chestItems_names, key="chestInput", default_value="Empty", enable_events=True, disabled=False)],
 
     # Hand slot
     [sg.Text("Choose your hand item:")],
-    [sg.InputCombo(handItems_names, key="handInput", default_value="Empty", enable_events=True, disabled=False, visible=True)],
+    [sg.InputCombo(handItems_names, key="handInput", default_value="Empty", enable_events=True, disabled=False)],
 
     # Saddle
 
     [sg.Text("Choose your saddle")],
-    [sg.InputCombo(saddles_names, key="saddlesInput", default_value="Default", enable_events=True, disabled=True, visible=True)],
+    [sg.InputCombo(saddles_names, key="saddlesInput", default_value="Default", enable_events=True, disabled=True)],
 
 
     # Checkboxes

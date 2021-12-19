@@ -30,10 +30,6 @@ bookUses20 = 0
 staffUses = 0
 totalStrikes = 0
 
-mins = 0
-
-settings_open = False
-
 def WXOCFormula(mins):
     mins += (96*(1+(random()*24)/(24 + mins)))/(24+mins)
     return mins
