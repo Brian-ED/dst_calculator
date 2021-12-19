@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
 import math
+from copy import copy
 from pyperclip import copy as copy_to_cb
 
 # First value is damage, second value is durability
@@ -14,6 +15,7 @@ damage_dict = {"Dark Sword": [68,100], "Glass Cutter": [68,75], "Glass Cutter (a
 
 character_dict = {"Wolfgang (mighty)": 2, "Wigfrid": 1.25, "Wendy": 0.75, "Wes" : 0.75, "Other characters": 1}
 wanda_dict = { "Young" : 1, "Middle-aged" : 1.2, "Old" : 1.75, "I am not Wanda" : 1 }
+
 walter_dict = { "Rocks" : 17, "Golden rounds" : 34, "Marbles" : 51, "Slowing down rounds" : 17, "Cursed rounds" : 51,
                 "Trinket" : 59.5 }
 
