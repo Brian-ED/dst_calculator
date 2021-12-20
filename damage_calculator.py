@@ -5,13 +5,13 @@ from pyperclip import copy as copy_to_cb
 
 # First value is damage, second value is durability
 
-damage_dict = {"Dark Sword": [68,100], "Glass Cutter": [68,75], "Glass Cutter (attacking a shadow)": [68,150],
-               "Thulecite Club": [59.5,200], "Ham Bat": [59.5,0], "Weremoose": [59.5,0], "Tentacle Spike": [51,100],
-               "Bat Bat": [42.5,75], "Battle Spear": [42.5,200], "Spear": [34,150], "Morning Star": [28.9,720],
-               "Tail o' Three Cats": [27.2,150], "Boomerang": [27.2,10], "Strident Trident (spell attack)": [85,25],
-               "Strident Trident (on a boat)": [68,150], "Strident Trident (on land)": [27.2,150], "Werebeaver": [27.2,0],
-               "Werebeaver (attacking treeguards)": [44.2,0], "Electric Dart": [60,1], "Blow Dart": [100,1],
-               "Trusty Slingshot": [0,1], "Alarming Clock" : [81.6,96]}
+damage_dict = {"Dark Sword": [68, 100], "Glass Cutter": [68, 75], "Glass Cutter (attacking a shadow)": [68, 150],
+               "Thulecite Club": [59.5, 200], "Ham Bat": [59.5, 0], "Weremoose": [59.5, 0], "Tentacle Spike": [51, 100],
+               "Bat Bat": [42.5, 75], "Battle Spear": [42.5, 200], "Spear": [34, 150], "Morning Star": [28.9, 720],
+               "Tail o' Three Cats": [27.2, 150], "Boomerang": [27.2, 10], "Strident Trident (spell attack)": [85, 25],
+               "Strident Trident (on a boat)": [68, 150], "Strident Trident (on land)": [27.2, 150], "Werebeaver": [27.2, 0],
+               "Werebeaver (attacking treeguards)": [44.2, 0], "Electric Dart": [60, 1], "Blow Dart": [100, 1],
+               "Trusty Slingshot": [0, 1], "Alarming Clock" : [81.6, 96]}
 
 character_dict = {"Wolfgang (mighty)": 2, "Wigfrid": 1.25, "Wendy": 0.75, "Wes" : 0.75, "Other characters": 1}
 wanda_dict = { "Young" : 1, "Middle-aged" : 1.2, "Old" : 1.75, "I am not Wanda" : 1 }
@@ -55,7 +55,7 @@ layout = [
     [sg.Text(size=(60,1), key='output1')],
     [sg.Text(size=(60,1), key='output2')],
     [sg.Text(size=(60,1), key='output3')],
-    [sg.Button('Calculate'), sg.Button('Exit'), sg.Button("Copy to clipboard", disabled=True),sg.Text(size=(60,1), key='Error', text_color="red")]]
+    [sg.Button('Calculate'), sg.Button('Exit'), sg.Button("Copy to clipboard", disabled=True)]]
 
 window = sg.Window('DST Damage Calculator', layout)
 
@@ -102,10 +102,15 @@ while True:
         if values['weaponinput'][0:8] == "Alarming" or (values['weaponinput'][0:4] == "Dark" and values['characterinput'] == "Other characters"):
             try:
                 damage *= wanda_dict[values['specinput']]
-            except:
-                window["Error"].update("Please pick an age for Wanda")
+            except KeyError:
+                damage *= wanda_dict["Old"]
+                window['specinput'].update(value="Old")
         if values['weaponinput'][0:6] == "Trusty":
-            damage += walter_dict[values['specinput']]
+            try:
+                damage += walter_dict[values['specinput']]
+            except KeyError:
+                damage += walter_dict["Golden rounds"]
+                window['specinput'].update(value="Golden rounds")
         durability = int(damage_dict[values['weaponinput']][1])
         values['healthinput'] = int(values['healthinput'])
         if values['abigailinput']:
