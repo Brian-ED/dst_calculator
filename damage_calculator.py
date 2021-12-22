@@ -130,12 +130,13 @@ while True:
         if values['warbleinput']:
             if durability > 1:
                 durability *= 1.25
-        weapons = values['healthinput'] / damage / durability
+        if durability > 0:
+            weapons = values['healthinput'] / damage / durability
         hits = math.ceil(hits)
         if values['characterinput'] == "Wes":
             weapons *= 0.75
         result0 = damage
-        window['output0'].update('You will deal {0} damage.'.format(result0))
+        window['output0'].update('You will deal {0} damage.'.format(round(result0, 1)))
         result1 = hits
         window['output1'].update('You will need to hit the enemy {0} times.'.format(result1))
         result2 = 1
